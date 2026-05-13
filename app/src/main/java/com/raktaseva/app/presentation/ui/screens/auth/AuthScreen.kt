@@ -15,6 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun AuthScreen(
     onNavigateToDashboard: () -> Unit,
+    onNavigateToProfileSetup: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
     val authState by viewModel.authState.collectAsState()
@@ -23,8 +24,10 @@ fun AuthScreen(
     val context = LocalContext.current
 
     LaunchedEffect(authState) {
-        if (authState is AuthState.Authenticated) {
-            onNavigateToDashboard()
+        when (authState) {
+            is AuthState.Authenticated -> onNavigateToDashboard()
+            is AuthState.NeedsProfileSetup -> onNavigateToProfileSetup()
+            else -> {}
         }
     }
 

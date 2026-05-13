@@ -9,18 +9,30 @@ exports.onEmergencyRequestCreated = functions.firestore
   .document("blood_requests/{requestId}")
   .onCreate(async (snap, context) => {
     const requestData = snap.data();
+    const { latitude, longitude, bloodGroup, hospitalName, requestId, requesterId } = requestData;
     
-    // Find nearby eligible donors (simplified - ignoring distance in this snippet for brevity, filtering by blood group & availability)
+    // Find all potential donors of the same blood group
     const donorsSnapshot = await db.collection("users")
-      .where("bloodGroup", "==", requestData.bloodGroup)
+      .where("bloodGroup", "==", bloodGroup)
       .where("isAvailable", "==", true)
       .get();
       
     const tokens = [];
+    const RADIUS_KM = 10;
+
     donorsSnapshot.forEach((doc) => {
       const user = doc.data();
-      if (user.fcmToken && user.uid !== requestData.requesterId) {
-        tokens.push(user.fcmToken);
+      
+      // Basic distance check (Haversine formula)
+      if (user.latitude && user.longitude && user.fcmToken && user.uid !== requesterId) {
+        const distance = calculateDistance(
+          latitude, longitude,
+          user.latitude, user.longitude
+        );
+        
+        if (distance <= RADIUS_KM) {
+          tokens.push(user.fcmToken);
+        }
       }
     });
 
@@ -28,16 +40,28 @@ exports.onEmergencyRequestCreated = functions.firestore
 
     const payload = {
       notification: {
-        title: `URGENT: ${requestData.bloodGroup} Blood Needed!`,
-        body: `Required at ${requestData.hospitalName}. Tap to view details.`,
+        title: `URGENT: ${bloodGroup} Blood Needed!`,
+        body: `Required at ${hospitalName}. Tap to help save a life.`,
       },
       data: {
-        requestId: context.params.requestId,
+        requestId: requestId,
+        click_action: "FLUTTER_NOTIFICATION_CLICK" // For Android to open the app correctly
       }
     };
 
     return admin.messaging().sendToDevice(tokens, payload);
   });
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371; // km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
 
 // 2. Scheduled Cron Job for 90-Day Cooldown Reset
 exports.resetCooldownDaily = functions.pubsub

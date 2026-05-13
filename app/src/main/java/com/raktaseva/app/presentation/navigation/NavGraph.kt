@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.raktaseva.app.presentation.ui.screens.assistant.GenAIAssistantScreen
 import com.raktaseva.app.presentation.ui.screens.auth.AuthScreen
+import com.raktaseva.app.presentation.ui.screens.auth.ProfileSetupScreen
 import com.raktaseva.app.presentation.ui.screens.dashboard.DashboardScreen
 import com.raktaseva.app.presentation.ui.screens.request.RequestBloodScreen
 
@@ -19,6 +19,20 @@ fun NavGraph(startDestination: String = "auth") {
                 onNavigateToDashboard = {
                     navController.navigate("dashboard") {
                         popUpTo("auth") { inclusive = true }
+                    }
+                },
+                onNavigateToProfileSetup = {
+                    navController.navigate("profile_setup") {
+                        popUpTo("auth") { inclusive = true }
+                    }
+                }
+            )
+        }
+        composable("profile_setup") {
+            ProfileSetupScreen(
+                onNavigateToDashboard = {
+                    navController.navigate("dashboard") {
+                        popUpTo("profile_setup") { inclusive = true }
                     }
                 }
             )
@@ -34,7 +48,11 @@ fun NavGraph(startDestination: String = "auth") {
             )
         }
         composable("request_blood") {
-            RequestBloodScreen()
+            RequestBloodScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
         composable("assistant") {
             GenAIAssistantScreen()

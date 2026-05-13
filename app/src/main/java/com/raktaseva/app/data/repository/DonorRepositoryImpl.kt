@@ -99,7 +99,7 @@ class DonorRepositoryImpl @Inject constructor(
         emit(Resource.Loading())
         try {
             val snapshot = firestore.collection(Constants.REQUESTS_COLLECTION)
-                .whereEqualTo("status", "Pending")
+                .whereIn("status", listOf("Pending", "Accepted"))
                 .get()
                 .await()
             

@@ -6,7 +6,7 @@ data class BloodRequest(
     val bloodGroup: String = "",
     val unitsRequired: Int = 1,
     val hospitalName: String = "",
-    val contactPerson: String = "",
+    val contactNumber: String = "",
     val urgencyLevel: String = "Normal", // Normal, Urgent, Critical
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,
