@@ -1,0 +1,19 @@
+*.iml
+.gradle
+/local.properties
+/.idea/
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+# Android Studio
+*.iws
+*.iml
+*.ipr
+.idea/
+.gradle/
+build/
+# Built variants
+/app/build/
+/functions/node_modules/
