@@ -30,6 +30,15 @@ fun DashboardScreen(
         topBar = {
             TopAppBar(
                 title = { Text("Rakta-Seva Dashboard") },
+                actions = {
+                    IconButton(onClick = onNavigateToAssistant) {
+                        Icon(
+                            imageVector = androidx.compose.material.icons.filled.Person, // Using Person as a placeholder for AI/Assistant
+                            contentDescription = "AI Assistant",
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
