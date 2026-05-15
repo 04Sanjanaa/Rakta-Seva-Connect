@@ -7,6 +7,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+import androidx.compose.ui.res.stringResource
+import com.raktaseva.app.R
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GenAIAssistantScreen() {
@@ -15,7 +18,7 @@ fun GenAIAssistantScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("GenAI Assistant") },
+                title = { Text(stringResource(R.string.assistant_title)) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
@@ -42,11 +45,11 @@ fun GenAIAssistantScreen() {
                     value = query,
                     onValueChange = { query = it },
                     modifier = Modifier.weight(1f),
-                    label = { Text("Ask about eligibility...") }
+                    label = { Text(stringResource(R.string.ask_eligibility_label)) }
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(onClick = { /* Send query to Gemini API */ }) {
-                    Text("Send")
+                    Text(stringResource(R.string.send_button))
                 }
             }
         }

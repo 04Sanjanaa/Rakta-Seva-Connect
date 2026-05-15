@@ -1,3 +1,46 @@
 <resources>
     <string name="app_name">Rakta-Seva Connect</string>
+    
+    <!-- Auth Screen -->
+    <string name="auth_title">Rakta-Seva Auth</string>
+    <string name="phone_number_label">Phone Number (+91...)</string>
+    <string name="send_otp">Send OTP</string>
+    <string name="otp_code_label">OTP Code</string>
+    <string name="verify">Verify</string>
+    
+    <!-- Profile Setup -->
+    <string name="profile_setup_title">Complete Your Profile</string>
+    <string name="profile_setup_subtitle">Help us know you better to save lives.</string>
+    <string name="full_name_label">Full Name</string>
+    <string name="blood_group_label">Blood Group</string>
+    <string name="city_area_label">City / Area</string>
+    <string name="save_and_continue">Save and Continue</string>
+    
+    <!-- Dashboard -->
+    <string name="dashboard_title">Rakta-Seva Dashboard</string>
+    <string name="emergency_requests_title">Emergency Blood Requests</string>
+    <string name="no_requests_found">No active requests found.</string>
+    <string name="new_request_description">New Request</string>
+    <string name="ai_assistant_description">AI Assistant</string>
+    <string name="blood_group_display">Blood Group: %1$s</string>
+    <string name="hospital_display">Hospital: %1$s</string>
+    <string name="units_display">Units Required: %1$s</string>
+    <string name="contact_display">Contact: %1$s</string>
+    <string name="accept_request">Accept Request</string>
+    <string name="already_accepted">Already Accepted</string>
+    
+    <!-- Request Blood -->
+    <string name="request_blood_title">Request Blood</string>
+    <string name="hospital_name_label">Hospital Name</string>
+    <string name="units_label">Units</string>
+    <string name="urgency_label">Urgency</string>
+    <string name="contact_number_label">Contact Number</string>
+    <string name="submit_emergency_request">Submit Emergency Request</string>
+    <string name="request_submitted_success">Request submitted successfully!</string>
+    <string name="back_button_description">Back</string>
+    
+    <!-- GenAI Assistant -->
+    <string name="assistant_title">GenAI Assistant</string>
+    <string name="ask_eligibility_label">Ask about eligibility...</string>
+    <string name="send_button">Send</string>
 </resources>

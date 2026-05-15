@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
+/**
+ * Implementation of [DonorRepository] using Firebase Firestore.
+ */
 class DonorRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : DonorRepository {

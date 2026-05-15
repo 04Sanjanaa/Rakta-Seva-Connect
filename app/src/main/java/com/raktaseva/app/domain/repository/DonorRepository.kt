@@ -5,6 +5,9 @@ import com.raktaseva.app.domain.models.User
 import com.raktaseva.app.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Interface defining data operations for donors and blood requests.
+ */
 interface DonorRepository {
     suspend fun saveUserProfile(user: User): Flow<Resource<Boolean>>
     suspend fun getUserProfile(uid: String): Flow<Resource<User>>

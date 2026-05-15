@@ -7,13 +7,31 @@
 .externalNativeBuild
 .cxx
 local.properties
+
 # Android Studio
 *.iws
-*.iml
 *.ipr
 .idea/
 .gradle/
 build/
+
 # Built variants
 /app/build/
 /functions/node_modules/
+
+# User-specific stuff
+.DS_Store
+*.swp
+*.bak
+*.tmp
+*.log
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services
+google-services.json
+
+# Local properties
+local.properties

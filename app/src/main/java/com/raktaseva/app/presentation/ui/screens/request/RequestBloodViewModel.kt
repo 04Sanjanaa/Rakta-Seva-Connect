@@ -13,6 +13,12 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * ViewModel for the Blood Request screen, handling the creation of new emergency requests.
+ * 
+ * @property authRepository Repository for fetching current user information.
+ * @property donorRepository Repository for persisting blood requests.
+ */
 @HiltViewModel
 class RequestBloodViewModel @Inject constructor(
     private val authRepository: AuthRepository,
@@ -20,8 +26,20 @@ class RequestBloodViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _requestState = MutableStateFlow<Resource<Boolean>>(Resource.Success(false))
+    /**
+     * State of the blood request submission process.
+     */
     val requestState: StateFlow<Resource<Boolean>> = _requestState
 
+    /**
+     * Submits a new blood request to Firestore.
+     * 
+     * @param bloodGroup The requested blood group (e.g., "O+").
+     * @param hospitalName The name of the hospital where blood is needed.
+     * @param unitsRequired Number of blood units required.
+     * @param contactNumber Contact phone number for the request.
+     * @param urgencyLevel Level of urgency (Normal, Urgent, Critical).
+     */
     fun submitRequest(
         bloodGroup: String,
         hospitalName: String,

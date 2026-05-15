@@ -8,6 +8,7 @@ import com.raktaseva.app.presentation.ui.screens.auth.AuthScreen
 import com.raktaseva.app.presentation.ui.screens.auth.ProfileSetupScreen
 import com.raktaseva.app.presentation.ui.screens.dashboard.DashboardScreen
 import com.raktaseva.app.presentation.ui.screens.request.RequestBloodScreen
+import com.raktaseva.app.presentation.ui.screens.assistant.GenAIAssistantScreen
 
 @Composable
 fun NavGraph(startDestination: String = "auth") {

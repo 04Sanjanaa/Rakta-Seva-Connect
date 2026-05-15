@@ -11,6 +11,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for handling authentication logic, including phone number verification and OTP sign-in.
+ * 
+ * @property authRepository Repository for Firebase Authentication operations.
+ * @property donorRepository Repository for user profile management.
+ */
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository,
@@ -18,10 +24,19 @@ class AuthViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _authState = MutableStateFlow<AuthState>(AuthState.Idle)
+    /**
+     * Observable state of the authentication process.
+     */
     val authState: StateFlow<AuthState> = _authState
 
     private var currentVerificationId: String? = null
 
+    /**
+     * Initiates phone number verification using Firebase Phone Auth.
+     * 
+     * @param phoneNumber The phone number to verify (e.g., +919876543210).
+     * @param activity The current activity context required for Firebase reCAPTCHA.
+     */
     fun verifyPhoneNumber(phoneNumber: String, activity: Activity) {
         viewModelScope.launch {
             authRepository.verifyPhoneNumber(phoneNumber, activity).collect { result ->

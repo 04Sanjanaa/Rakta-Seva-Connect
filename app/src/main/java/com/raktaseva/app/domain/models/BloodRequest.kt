@@ -1,5 +1,8 @@
 package com.raktaseva.app.domain.models
 
+/**
+ * Represents an emergency blood request.
+ */
 data class BloodRequest(
     val requestId: String = "",
     val requesterId: String = "",

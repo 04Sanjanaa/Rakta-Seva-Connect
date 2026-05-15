@@ -5,9 +5,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.raktaseva.app.utils.Resource
+import androidx.compose.ui.res.stringResource
+import com.raktaseva.app.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,7 +31,7 @@ fun ProfileSetupScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Complete Your Profile") },
+                title = { Text(stringResource(R.string.profile_setup_title)) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
@@ -48,7 +47,7 @@ fun ProfileSetupScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Help us know you better to save lives.",
+                text = stringResource(R.string.profile_setup_subtitle),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(bottom = 24.dp)
             )
@@ -56,7 +55,7 @@ fun ProfileSetupScreen(
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Full Name") },
+                label = { Text(stringResource(R.string.full_name_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -71,7 +70,7 @@ fun ProfileSetupScreen(
                     value = bloodGroup,
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text("Blood Group") },
+                    label = { Text(stringResource(R.string.blood_group_label)) },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                     modifier = Modifier.menuAnchor().fillMaxWidth()
                 )
@@ -96,7 +95,7 @@ fun ProfileSetupScreen(
             OutlinedTextField(
                 value = location,
                 onValueChange = { location = it },
-                label = { Text("City / Area") },
+                label = { Text(stringResource(R.string.city_area_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -118,7 +117,7 @@ fun ProfileSetupScreen(
                         strokeWidth = 2.dp
                     )
                 } else {
-                    Text("Save and Continue")
+                    Text(stringResource(R.string.save_and_continue))
                 }
             }
 

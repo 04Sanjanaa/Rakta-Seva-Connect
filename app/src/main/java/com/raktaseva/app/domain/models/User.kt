@@ -1,5 +1,8 @@
 package com.raktaseva.app.domain.models
 
+/**
+ * Represents a donor/user in the system.
+ */
 data class User(
     val uid: String = "",
     val name: String = "",

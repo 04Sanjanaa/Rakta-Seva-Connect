@@ -12,6 +12,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for the Dashboard screen, responsible for fetching and managing blood requests.
+ * 
+ * @property authRepository Repository for authentication-related data.
+ * @property donorRepository Repository for blood request and donor-related operations.
+ */
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val authRepository: AuthRepository,
@@ -19,17 +25,29 @@ class DashboardViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _requestsState = MutableStateFlow<Resource<List<BloodRequest>>>(Resource.Loading())
+    /**
+     * State of the active blood requests list.
+     */
     val requestsState: StateFlow<Resource<List<BloodRequest>>> = _requestsState
 
     private val _acceptState = MutableStateFlow<Resource<Boolean>>(Resource.Success(false))
+    /**
+     * State of the "accept request" operation.
+     */
     val acceptState: StateFlow<Resource<Boolean>> = _acceptState
 
+    /**
+     * The ID of the currently logged-in user.
+     */
     val currentUserId: String? get() = authRepository.getCurrentUserId()
 
     init {
         fetchActiveRequests()
     }
 
+    /**
+     * Fetches all active blood requests from the repository.
+     */
     fun fetchActiveRequests() {
         viewModelScope.launch {
             donorRepository.getActiveRequests().collect { result ->

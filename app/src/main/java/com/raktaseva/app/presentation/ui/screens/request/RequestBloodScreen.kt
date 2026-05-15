@@ -5,6 +5,9 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.raktaseva.app.utils.Resource
 
+import androidx.compose.ui.res.stringResource
+import com.raktaseva.app.R
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RequestBloodScreen(
@@ -23,10 +26,12 @@ fun RequestBloodScreen(
     val urgencyLevels = listOf("Normal", "Urgent", "Critical")
     val requestState by viewModel.requestState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+    
+    val successMsg = stringResource(R.string.request_submitted_success)
 
     LaunchedEffect(requestState) {
         if (requestState is Resource.Success && (requestState as Resource.Success<Boolean>).data == true) {
-            snackbarHostState.showSnackbar("Request submitted successfully!")
+            snackbarHostState.showSnackbar(successMsg)
             onNavigateBack()
         } else if (requestState is Resource.Error) {
             snackbarHostState.showSnackbar((requestState as Resource.Error).message ?: "Error submitting request")
@@ -37,10 +42,13 @@ fun RequestBloodScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
-                title = { Text("Request Blood") },
+                title = { Text(stringResource(R.string.request_blood_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = stringResource(R.string.back_button_description)
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -66,7 +74,7 @@ fun RequestBloodScreen(
                     value = bloodGroup,
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text("Blood Group") },
+                    label = { Text(stringResource(R.string.blood_group_label)) },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedGroup) },
                     modifier = Modifier.menuAnchor().fillMaxWidth()
                 )
@@ -91,7 +99,7 @@ fun RequestBloodScreen(
             OutlinedTextField(
                 value = hospitalName,
                 onValueChange = { hospitalName = it },
-                label = { Text("Hospital Name") },
+                label = { Text(stringResource(R.string.hospital_name_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -101,7 +109,7 @@ fun RequestBloodScreen(
                 OutlinedTextField(
                     value = unitsRequired,
                     onValueChange = { unitsRequired = it },
-                    label = { Text("Units") },
+                    label = { Text(stringResource(R.string.units_label)) },
                     modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.width(16.dp))
@@ -114,7 +122,7 @@ fun RequestBloodScreen(
                         value = urgencyLevel,
                         onValueChange = {},
                         readOnly = true,
-                        label = { Text("Urgency") },
+                        label = { Text(stringResource(R.string.urgency_label)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedUrgency) },
                         modifier = Modifier.menuAnchor().fillMaxWidth()
                     )
@@ -140,7 +148,7 @@ fun RequestBloodScreen(
             OutlinedTextField(
                 value = contactNumber,
                 onValueChange = { contactNumber = it },
-                label = { Text("Contact Number") },
+                label = { Text(stringResource(R.string.contact_number_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -164,7 +172,7 @@ fun RequestBloodScreen(
                 if (requestState is Resource.Loading) {
                     CircularProgressIndicator(modifier = Modifier.size(24.dp), color = MaterialTheme.colorScheme.onPrimary)
                 } else {
-                    Text("Submit Emergency Request")
+                    Text(stringResource(R.string.submit_emergency_request))
                 }
             }
         }

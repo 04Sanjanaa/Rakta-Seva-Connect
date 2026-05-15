@@ -3,18 +3,9 @@ package com.raktaseva.app.presentation.ui.screens.dashboard
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.raktaseva.app.domain.models.BloodRequest
-import com.raktaseva.app.utils.Resource
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.ui.res.stringResource
+import com.raktaseva.app.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,12 +20,12 @@ fun DashboardScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Rakta-Seva Dashboard") },
+                title = { Text(stringResource(R.string.dashboard_title)) },
                 actions = {
                     IconButton(onClick = onNavigateToAssistant) {
                         Icon(
-                            imageVector = androidx.compose.material.icons.filled.Person, // Using Person as a placeholder for AI/Assistant
-                            contentDescription = "AI Assistant",
+                            imageVector = Icons.Default.Person, // Using Person as a placeholder for AI/Assistant
+                            contentDescription = stringResource(R.string.ai_assistant_description),
                             tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
@@ -47,7 +38,10 @@ fun DashboardScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onNavigateToRequest) {
-                Icon(Icons.Default.Add, contentDescription = "New Request")
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = stringResource(R.string.new_request_description)
+                )
             }
         }
     ) { paddingValues ->
@@ -58,7 +52,7 @@ fun DashboardScreen(
                 .padding(16.dp)
         ) {
             Text(
-                text = "Emergency Blood Requests",
+                text = stringResource(R.string.emergency_requests_title),
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
@@ -73,7 +67,7 @@ fun DashboardScreen(
                     val requests = state.data ?: emptyList()
                     if (requests.isEmpty()) {
                         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            Text("No active requests found.")
+                            Text(stringResource(R.string.no_requests_found))
                         }
                     } else {
                         LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -112,7 +106,7 @@ fun BloodRequestCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Blood Group: ${request.bloodGroup}",
+                    text = stringResource(R.string.blood_group_display, request.bloodGroup),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -128,27 +122,36 @@ fun BloodRequestCard(
             }
             
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Hospital: ${request.hospitalName}", style = MaterialTheme.typography.bodyLarge)
-            Text(text = "Units Required: ${request.unitsRequired}", style = MaterialTheme.typography.bodyMedium)
+            Text(
+                text = stringResource(R.string.hospital_display, request.hospitalName),
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Text(
+                text = stringResource(R.string.units_display, request.unitsRequired.toString()),
+                style = MaterialTheme.typography.bodyMedium
+            )
             
             Spacer(modifier = Modifier.height(16.dp))
             
             if (request.status == "Accepted") {
                 if (request.acceptedByDonorId == currentUserId) {
                     Text(
-                        text = "Contact: ${request.contactNumber}",
+                        text = stringResource(R.string.contact_display, request.contactNumber),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.primary
                     )
                 } else {
-                    Text(text = "Already Accepted", color = MaterialTheme.colorScheme.outline)
+                    Text(
+                        text = stringResource(R.string.already_accepted),
+                        color = MaterialTheme.colorScheme.outline
+                    )
                 }
             } else {
                 Button(
                     onClick = onAccept,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Accept Request")
+                    Text(stringResource(R.string.accept_request))
                 }
             }
         }

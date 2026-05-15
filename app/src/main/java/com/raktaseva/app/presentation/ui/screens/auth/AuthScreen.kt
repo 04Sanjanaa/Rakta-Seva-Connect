@@ -8,9 +8,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.res.stringResource
+import com.raktaseva.app.R
 
 @Composable
 fun AuthScreen(
@@ -38,14 +37,17 @@ fun AuthScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Rakta-Seva Auth", style = MaterialTheme.typography.headlineMedium)
+        Text(
+            text = stringResource(R.string.auth_title),
+            style = MaterialTheme.typography.headlineMedium
+        )
         Spacer(modifier = Modifier.height(32.dp))
 
         if (authState is AuthState.Idle || authState is AuthState.Error) {
             OutlinedTextField(
                 value = phoneNumber,
                 onValueChange = { phoneNumber = it },
-                label = { Text("Phone Number (+91...)") },
+                label = { Text(stringResource(R.string.phone_number_label)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -54,13 +56,13 @@ fun AuthScreen(
                 onClick = { viewModel.verifyPhoneNumber(phoneNumber, context as Activity) },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Send OTP")
+                Text(stringResource(R.string.send_otp))
             }
         } else if (authState is AuthState.CodeSent) {
             OutlinedTextField(
                 value = otpCode,
                 onValueChange = { otpCode = it },
-                label = { Text("OTP Code") },
+                label = { Text(stringResource(R.string.otp_code_label)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -69,7 +71,7 @@ fun AuthScreen(
                 onClick = { viewModel.verifyCode(otpCode) },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Verify")
+                Text(stringResource(R.string.verify))
             }
         }
 
@@ -80,7 +82,10 @@ fun AuthScreen(
 
         if (authState is AuthState.Error) {
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = (authState as AuthState.Error).message, color = MaterialTheme.colorScheme.error)
+            Text(
+                text = (authState as AuthState.Error).message,
+                color = MaterialTheme.colorScheme.error
+            )
         }
     }
 }

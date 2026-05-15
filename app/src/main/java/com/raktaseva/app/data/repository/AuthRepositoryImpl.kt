@@ -16,6 +16,9 @@ import kotlinx.coroutines.tasks.await
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+/**
+ * Implementation of [AuthRepository] using Firebase Authentication.
+ */
 class AuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth
 ) : AuthRepository {
