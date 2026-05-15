@@ -1,6 +1,6 @@
+# Project exclusions
 *.iml
 .gradle
-/local.properties
 /.idea/
 /build
 /captures
@@ -11,9 +11,6 @@ local.properties
 # Android Studio
 *.iws
 *.ipr
-.idea/
-.gradle/
-build/
 
 # Built variants
 /app/build/
@@ -30,8 +27,10 @@ build/
 *.jks
 *.keystore
 
-# Google Services
+# Sensitive configuration files
 google-services.json
-
-# Local properties
 local.properties
+
+# OS specific files
+Thumbs.db
+.DS_Store
