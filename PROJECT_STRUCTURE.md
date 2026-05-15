@@ -1,53 +1,58 @@
 # Project Structure - Rakta-Seva Connect
 
-This document provides an overview of the directory structure and the purpose of each package in the Rakta-Seva Connect project.
+This document outlines the organized folder and package hierarchy of the Rakta-Seva Connect project, following the MVVM Clean Architecture.
 
-## Root Directory Structure
-- `app/`: Main Android application module.
-- `functions/`: Firebase Cloud Functions for backend logic (e.g., notifications).
-- `docs/`: Documentation assets, including images and diagrams.
-- `gradle/`: Gradle wrapper and configuration.
+## Directory Overview
 
-## App Module Structure (`com.raktaseva.app`)
+### Root Folders
+- `app/`: The primary Android application module.
+- `docs/`: Contains project documentation and media assets (screenshots).
+- `gradle/`: Gradle build system configuration.
 
-### 1. `data/`
-Contains implementation details of data fetching and persistence.
-- `repository/`: Concrete implementations of repository interfaces defined in the domain layer.
-  - `AuthRepositoryImpl.kt`: Firebase Auth implementation.
-  - `DonorRepositoryImpl.kt`: Firebase Firestore implementation.
+### App Module Structure (`com.raktaseva.app`)
 
-### 2. `domain/`
-The core business logic layer, independent of any framework.
-- `models/`: Data models used throughout the app.
-  - `User.kt`: Donor profile model.
-  - `BloodRequest.kt`: Emergency request model.
-- `repository/`: Interfaces for data operations, ensuring abstraction.
-  - `AuthRepository.kt`: Auth interface.
-  - `DonorRepository.kt`: Donor data interface.
+#### 1. `data/`
+Responsible for data retrieval and persistence.
+- **`repository/`**: Contains the concrete implementations of domain interfaces.
+    - `AuthRepositoryImpl.kt`: Manages Firebase Phone Authentication logic.
+    - `DonorRepositoryImpl.kt`: Handles Firestore CRUD operations for users and blood requests.
 
-### 3. `presentation/`
-The UI layer, responsible for displaying data and handling user interaction.
-- `navigation/`: Navigation graph and route definitions.
-  - `NavGraph.kt`: Main navigation host.
-- `ui/`: UI components and styling.
-  - `screens/`: Individual screens built with Jetpack Compose.
-    - `auth/`: Login and Profile Setup screens.
-    - `dashboard/`: Main dashboard for viewing requests.
-    - `request/`: Screen for creating new blood requests.
-    - `assistant/`: GenAI assistant chat screen.
-  - `theme/`: Material 3 theme definitions.
+#### 2. `domain/`
+The core business logic layer.
+- **`models/`**: POJO (Plain Old Java Object) classes for data.
+    - `User.kt`: Represents donor profile data.
+    - `BloodRequest.kt`: Represents emergency blood request details.
+- **`repository/`**: Abstraction interfaces for data operations.
+    - `AuthRepository.kt`: Interface for authentication methods.
+    - `DonorRepository.kt`: Interface for data management.
 
-### 4. `di/`
-Dependency Injection modules.
-- `AppModule.kt`: Provides singleton instances of Firebase, Repositories, etc.
+#### 3. `presentation/`
+The UI layer using Jetpack Compose.
+- **`navigation/`**: Centralized navigation management.
+    - `NavGraph.kt`: Defines routes and screen transitions.
+- **`ui/`**: Visual components.
+    - **`screens/`**: Individual Composable screens.
+        - `auth/`: Authentication flow screens (Login, Profile Setup).
+        - `dashboard/`: Main application hub.
+        - `request/`: Emergency request creation flow.
+        - `assistant/`: AI Assistant integration.
+    - **`theme/`**: Design tokens, colors, and typography (Material 3).
 
-### 5. `utils/`
-Common utility classes and constants.
-- `Constants.kt`: App-wide constants.
-- `Resource.kt`: Wrapper for handling loading, success, and error states.
+#### 4. `di/`
+Dependency Injection management.
+- `AppModule.kt`: Dagger Hilt module providing singleton dependencies (Firebase, Repositories).
 
-### 6. `MainActivity.kt`
-The entry point of the application, hosting the `NavGraph`.
+#### 5. `utils/`
+Common helpers and constants.
+- `Constants.kt`: Storage for collection names and constant values.
+- `Resource.kt`: Sealed class for handling Success, Error, and Loading states.
 
-### 7. `RaktaSevaApplication.kt`
-Custom Application class for Hilt initialization.
+---
+
+## Firestore Collections
+The app relies on two primary collections:
+1. `users`: Stores unique donor profiles linked by UID.
+2. `blood_requests`: Stores all emergency requests with metadata (status, urgency, timestamp).
+
+## Navigation Flow
+`LoginScreen` -> `OTP Verification` -> `ProfileSetup` (if new user) -> `Dashboard` -> `RequestBloodScreen`

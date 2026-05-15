@@ -1,38 +1,38 @@
 # Architecture Overview - Rakta-Seva Connect
 
-Rakta-Seva Connect is built using **Clean Architecture** principles and the **MVVM (Model-View-ViewModel)** design pattern. This ensures the app is scalable, maintainable, and easy to test.
+Rakta-Seva Connect is architected using **MVVM (Model-View-ViewModel)** combined with **Clean Architecture** principles to ensure a modular, testable, and maintainable codebase.
 
-## High-Level Architecture
+## 1. Architectural Layers
 
-The app is divided into three main layers:
+### Presentation Layer (UI)
+- **Jetpack Compose**: Handles the declarative UI components.
+- **ViewModels**: Manage the UI state using `StateFlow` and interact with the Domain layer. ViewModels are scoped to the screens they serve.
+- **Navigation**: Uses `Navigation Compose` with a centralized `NavGraph`.
 
-### 1. Presentation Layer (UI)
-- **Framework**: Jetpack Compose (Declarative UI).
-- **Components**:
-  - **Screens**: Composable functions representing the visual interface.
-  - **ViewModels**: Manage UI state and interact with the Domain layer. They use `StateFlow` to emit data to the UI.
-  - **Navigation**: Uses `Navigation Compose` to handle transitions between screens.
+### Domain Layer (Business Logic)
+- **Entities/Models**: Core data classes (`User`, `BloodRequest`) that represent the application's data.
+- **Repository Interfaces**: Define the contracts for data operations, ensuring the domain is independent of the data source implementation.
 
-### 2. Domain Layer (Core Business Logic)
-- **Independence**: This layer does not depend on any Android or external libraries (except for core Kotlin).
-- **Models**: Plain Kotlin data classes (`User`, `BloodRequest`).
-- **Repository Interfaces**: Define the "contract" for data operations. The presentation layer depends on these interfaces, not their implementations (Dependency Inversion).
+### Data Layer (Infrastructure)
+- **Repositories**: Implement the domain interfaces.
+- **Data Sources**: Interact directly with external services like Firebase Auth and Firestore.
+- **Dependency Injection**: Hilt is used to inject repository implementations into ViewModels.
 
-### 3. Data Layer (Data Sources)
-- **Implementation**: Contains the actual code for fetching data from Firebase (Auth, Firestore).
-- **Repositories**: Classes like `AuthRepositoryImpl` and `DonorRepositoryImpl` implement the domain interfaces.
-- **Dependency Injection**: Hilt provides the concrete implementations of repositories to the ViewModels.
+## 2. Data Flow (Reactive Pattern)
+1. **User Interaction**: User triggers an event (e.g., clicking "Request Blood").
+2. **ViewModel Action**: The ViewModel receives the event and initiates a request through a Repository.
+3. **Repository Execution**: The Repository interacts with Firebase (Firestore/Auth) and returns a `Flow<Resource<T>>`.
+4. **State Update**: The ViewModel collects the flow and updates its `StateFlow`.
+5. **UI Recomposition**: The Compose UI observes the `StateFlow` and recomposes to show the latest data or state (Loading, Success, Error).
 
-## Data Flow
-1. **User Action**: User clicks a button in a Compose Screen.
-2. **ViewModel**: The Screen calls a function in the ViewModel.
-3. **Repository**: The ViewModel calls a function in the Repository interface.
-4. **Data Source**: The Repository implementation interacts with Firebase.
-5. **Flow/StateFlow**: The data flows back through the layers using Kotlin `Flow`.
-6. **UI Update**: The ViewModel updates its `StateFlow`, which triggers a recomposition in the Screen.
+## 3. Dependency Injection
+The project uses **Dagger Hilt** for dependency injection. The `AppModule` provides singleton instances of:
+- `FirebaseAuth`
+- `FirebaseFirestore`
+- `AuthRepository` (Implementation)
+- `DonorRepository` (Implementation)
 
-## Why MVVM + Clean Architecture?
-- **Separation of Concerns**: Each layer has a single responsibility.
-- **Testability**: Business logic (Domain) can be tested without Android dependencies.
-- **Flexibility**: If we switch from Firebase to another backend, only the Data layer needs to change; the UI and Domain layers remain untouched.
-- **Maintainability**: New features can be added with minimal impact on existing code.
+## 4. Key Design Patterns
+- **Repository Pattern**: Abstracts data access.
+- **Sealed Class for Results**: `Resource.kt` handles Loading, Success, and Error states uniformly across the app.
+- **Single Source of Truth**: Firestore serves as the real-time source of truth for all shared data.

@@ -1,52 +1,33 @@
 # Firebase Setup Guide - Rakta-Seva Connect
 
-This guide outlines the steps required to configure Firebase for the Rakta-Seva Connect application.
+This document provides a step-by-step guide to configuring the Firebase backend for the Rakta-Seva Connect application.
 
-## 1. Create a Firebase Project
-- Go to the [Firebase Console](https://console.firebase.google.com/).
-- Click **Add project** and follow the setup wizard.
+## 1. Firebase Project Initialization
+- Create a new project in the [Firebase Console](https://console.firebase.google.com/).
+- Add an Android app to the project using the package name: `com.raktaseva.app`.
+- Download the `google-services.json` file and place it in the `app/` directory of your project.
 
-## 2. Register Android App
-- Click the **Android icon** to add an app.
-- Package Name: `com.raktaseva.app`
-- App Nickname: `Rakta-Seva Connect`
-- **SHA-1 Fingerprint**: (Crucial for Phone Auth)
-  - Run `./gradlew signingReport` in the terminal to get your debug SHA-1.
-- Download `google-services.json` and place it in the `app/` folder.
+## 2. Authentication Configuration
+### Phone Authentication
+- In the Firebase Console, navigate to **Authentication** > **Sign-in method**.
+- Enable the **Phone** provider.
+- (Optional) Add test phone numbers for development.
 
-## 3. Enable Authentication
-- Navigate to **Authentication** -> **Get Started**.
-- Go to the **Sign-in method** tab.
-- Click **Add new provider** and select **Phone**.
-- Enable it and save.
-
-## 4. Set Up Firestore Database
-- Navigate to **Firestore Database** -> **Create database**.
-- Select **Start in test mode** for initial development.
-- Choose a location near your users.
-- Create the following collections:
-  - `users`: Stores user profiles.
-  - `blood_requests`: Stores emergency requests.
-
-## 5. Firebase Cloud Messaging (Optional)
-- FCM is used for push notifications.
-- Enable the **Cloud Messaging API** in the Google Cloud Console.
-
-## 6. (Optional) Deploy Cloud Functions
-- If you use the `functions` folder, install Firebase CLI:
+### SHA-1 Fingerprint
+- To enable Phone Auth, you must provide your app's SHA-1 fingerprint.
+- Run the following command in the Android Studio terminal:
   ```bash
-  npm install -g firebase-tools
+  ./gradlew signingReport
   ```
-- Login and initialize:
-  ```bash
-  firebase login
-  firebase init functions
-  ```
-- Deploy:
-  ```bash
-  firebase deploy --only functions
-  ```
+- Copy the SHA-1 from the output and add it to your Project Settings in the Firebase Console.
 
-## 7. Troubleshooting
-- **reCAPTCHA error**: Ensure the SHA-1 is correct and the Android Device Check API is enabled in Google Cloud Console.
-- **Permission Denied**: Check your Firestore security rules.
+## 3. Cloud Firestore Setup
+- Navigate to **Firestore Database** and click **Create database**.
+- Start in **Test Mode** for initial development or configure proper security rules for production.
+- **Collections**:
+    - `users`: Created automatically when a user saves their profile.
+    - `blood_requests`: Created when a user broadcasts an emergency request.
+
+## 4. Troubleshooting
+- **reCAPTCHA Verification**: Phone authentication may trigger reCAPTCHA. Ensure your Google Play Services are up to date on the device/emulator.
+- **Missing google-services.json**: If the app crashes on startup, ensure the JSON file is correctly placed and the Gradle plugin is applied.

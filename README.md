@@ -77,7 +77,7 @@ graph LR
 ![Login Screen](docs/images/login_screen.png)
 
 ### OTP Verification
-![OTP Verification](docs/images/otp_verification.png)
+![OTP Verification](docs/images/otp_verification_v2.png)
 
 ### Dashboard
 ![Dashboard](docs/images/dashboard_screen.png)
