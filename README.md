@@ -72,12 +72,18 @@ graph LR
 ```
 
 ## Screenshots
-> [!NOTE]
-> Add your actual screenshots in the `docs/screenshots/` folder and update the links below.
 
-| Login Screen | Dashboard | Blood Request | OTP Screen |
-| :---: | :---: | :---: | :---: |
-| ![Login](docs/images/login_placeholder.png) | ![Dashboard](docs/images/dashboard_placeholder.png) | ![Request](docs/images/request_placeholder.png) | ![OTP](docs/images/otp_placeholder.png) |
+### Login Screen
+![Login Screen](docs/images/login_screen.png)
+
+### OTP Verification
+![OTP Verification](docs/images/otp_verification.png)
+
+### Dashboard
+![Dashboard](docs/images/dashboard_screen.png)
+
+### Request Blood Screen
+![Request Blood](docs/images/request_blood_screen.png)
 
 ## Installation Steps
 1. **Clone the repository**:
